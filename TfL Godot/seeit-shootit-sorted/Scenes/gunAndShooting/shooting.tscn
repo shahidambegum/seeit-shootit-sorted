@@ -1,0 +1,154 @@
+[gd_scene load_steps=19 format=3 uid="uid://cyr3vewlkso7q"]
+
+[ext_resource type="Script" path="res://Scripts/PlayerController.cs" id="1_3creq"]
+[ext_resource type="Texture2D" uid="uid://bdx6xet3l8iyg" path="res://Scenes/Level1Scene/TFL_Engineer.png" id="2_ngqo8"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_sgvvw"]
+radius = 7.0
+height = 26.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iejed"]
+atlas = ExtResource("2_ngqo8")
+region = Rect2(34, 0, 34, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ohsu2"]
+atlas = ExtResource("2_ngqo8")
+region = Rect2(0, 0, 34, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ep1m6"]
+atlas = ExtResource("2_ngqo8")
+region = Rect2(0, 224, 34, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cy207"]
+atlas = ExtResource("2_ngqo8")
+region = Rect2(34, 0, 34, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r4pr2"]
+atlas = ExtResource("2_ngqo8")
+region = Rect2(0, 160, 34, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eu0s3"]
+atlas = ExtResource("2_ngqo8")
+region = Rect2(0, 192, 34, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pgwai"]
+atlas = ExtResource("2_ngqo8")
+region = Rect2(0, 32, 34, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_todm5"]
+atlas = ExtResource("2_ngqo8")
+region = Rect2(34, 32, 34, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3okmp"]
+atlas = ExtResource("2_ngqo8")
+region = Rect2(68, 32, 34, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rytsv"]
+atlas = ExtResource("2_ngqo8")
+region = Rect2(102, 32, 34, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_06xnh"]
+atlas = ExtResource("2_ngqo8")
+region = Rect2(136, 32, 34, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nh3bl"]
+atlas = ExtResource("2_ngqo8")
+region = Rect2(170, 32, 34, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qalmy"]
+atlas = ExtResource("2_ngqo8")
+region = Rect2(0, 64, 34, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6gaob"]
+atlas = ExtResource("2_ngqo8")
+region = Rect2(34, 64, 34, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_yv8n1"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iejed")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ohsu2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ep1m6")
+}],
+"loop": true,
+"name": &"death",
+"speed": 2.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cy207")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r4pr2")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 2.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eu0s3")
+}],
+"loop": true,
+"name": &"jump",
+"speed": 2.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pgwai")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_todm5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3okmp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rytsv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_06xnh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nh3bl")
+}],
+"loop": true,
+"name": &"run",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qalmy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6gaob")
+}],
+"loop": true,
+"name": &"shoot",
+"speed": 10.0
+}]
+
+[node name="Shooting" type="Node2D"]
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+script = ExtResource("1_3creq")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+position = Vector2(700, 275)
+shape = SubResource("CapsuleShape2D_sgvvw")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CharacterBody2D"]
+position = Vector2(704, 273)
+sprite_frames = SubResource("SpriteFrames_yv8n1")
+animation = &"shoot"
+autoplay = "idle"
+frame_progress = 0.0212929
+
+[node name="Camera2D" type="Camera2D" parent="CharacterBody2D"]
+position = Vector2(700, 274)
+zoom = Vector2(4, 4)

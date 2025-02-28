@@ -1,0 +1,30 @@
+[gd_scene load_steps=4 format=3 uid="uid://rmj3vjhkch6i"]
+
+[ext_resource type="Script" path="res://Scripts/gun.gd" id="1_dhmnq"]
+[ext_resource type="Texture2D" uid="uid://5ouqoiyx4xp7" path="res://Assets/bullet.png" id="2_wysxk"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ntr3m"]
+radius = 1.0
+height = 2.0
+
+[node name="Gun" type="Area2D"]
+z_as_relative = false
+position = Vector2(7, -9)
+script = ExtResource("1_dhmnq")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(19.5961, 73.9473)
+scale = Vector2(0.0226563, 0.024928)
+texture = ExtResource("2_wysxk")
+region_enabled = true
+region_rect = Rect2(238.224, 82.95, 174.624, 76.854)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(20.625, 74)
+shape = SubResource("CapsuleShape2D_ntr3m")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(17.625, 74)
+scale = Vector2(0.0625002, 0.075)
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

@@ -11,15 +11,46 @@ public partial class PlayerController : CharacterBody2D
     [Signal] public delegate void HealthChangedEventHandler();
     [Signal] public delegate void DeathEventHandler();
 
+    [Signal]
+    public delegate void GunShotEventHandler(PackedScene gunScene, Vector2 location, Vector2 direction);
+
+
+
+    private Node muzzle;
+
+    PackedScene gunScene = (PackedScene)ResourceLoader.Load("res://Scenes/gunAndShooting/gun.tscn");
+
+    // public void _Process(float delta)
+    // {
+    //     if (Input.IsActionJustPressed("shoot"))
+    //     { 
+    //         GD.PrintErr("space button works i guess");
+    //         Shoot();
+    //     }
+    //     else{
+    //         GD.PrintErr("else hit");
+    //     }
+    // }
+
+    public void Shoot()
+    {
+        GD.Print("Shoot is being hit");
+       //added direction vector here and below
+        Vector2 shootDirection = _sprite.FlipH ? Vector2.Left : Vector2.Right;
+        EmitSignal(SignalName.GunShot, gunScene, ((Node2D)muzzle).GlobalPosition, shootDirection);
+        GD.Print("Bullet emitted from position: " + ((Node2D)muzzle).GlobalPosition);
+    }
+
     public override void _Ready()
     {
         _sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D"); // Get the sprite node
+        muzzle = GetNode("Muzzle");
 
         MaxHealth = 100;
         CurrentHealth = MaxHealth;
     }
 
-        public override void _Process(double delta)
+    public override void _Process(double delta)
     {
         if (Input.IsActionJustPressed("ui_fullscreen_toggle"))
         {
@@ -27,6 +58,15 @@ public partial class PlayerController : CharacterBody2D
                 ? DisplayServer.WindowMode.Windowed
                 : DisplayServer.WindowMode.Fullscreen);
         }
+
+        // if (Input.IsActionJustPressed("shoot"))
+        // { 
+        //     GD.PrintErr("space button works i guess");
+        //     Shoot();
+        // }
+        // else{
+        //     GD.PrintErr("else hit");
+        // }
     }
 
     public void ChangeHealth(int amount)
@@ -44,7 +84,7 @@ public partial class PlayerController : CharacterBody2D
             CurrentHealth = 0;
             _sprite.Play("death");
             GD.Print("Player has died");
-            _sprite.AnimationFinished += _on_animated_sprite_2d_animation_finished;
+            //_sprite.AnimationFinished += _on_animated_sprite_2d_animation_finished;
             SetPhysicsProcess(false); // Stop player movement
             SetProcess(false);
             // EmitSignal(nameof(Death));
@@ -64,7 +104,7 @@ public partial class PlayerController : CharacterBody2D
             GD.Print("Respawning player after death animation");
 
             // Disconnect the signal to prevent multiple calls
-            _sprite.AnimationFinished -= _on_animated_sprite_2d_animation_finished;
+            //_sprite.AnimationFinished -= _on_animated_sprite_2d_animation_finished;
 
             EmitSignal(nameof(Death));
         }
@@ -78,7 +118,14 @@ public partial class PlayerController : CharacterBody2D
         {
             return; // Don't override TakeDamage animation
         }
-        
+
+        if (Input.IsActionJustPressed("shoot"))
+        { 
+            GD.Print("Gun is shooting");
+            Shoot();
+            
+        }
+
         Vector2 velocity = Velocity;
 
         // Get the default gravity value from project settings
